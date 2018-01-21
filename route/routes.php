@@ -23,7 +23,7 @@ $app->with('/api', function () use ($app) {
             }
         });
         // api/menu => Return all meal list for this month
-        $app->respond('GET', '/?', function ($request, $response) {
+        $app->respond(['GET', 'POST'], '/?', function ($request, $response) {
             $statusCode = 200;
             $data = new DataLayer\Data();
             $responseData = $data->getAll();
