@@ -24,11 +24,7 @@ class Redis {
   public function __construct()
   {
     // Initialize Redis Connection
-    $this->redis = new \Predis\Client([
-      'scheme' => getenv('REDIS_SCHEMA'),
-      'host'   => getenv('REDIS_HOST'),
-      'port'   => getenv('REDIS_PORT'),
-    ]);
+    $this->redis = new \Predis\Client(getenv('REDIS_URL'));
   }
 
   /**
