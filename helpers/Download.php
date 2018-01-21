@@ -34,6 +34,7 @@ class Download {
   */
   public function download() 
   {
+    var_dump($this->getFileSource());
     $destination = $this->getFileDestination();
     $file = fopen($destination, 'w+');
     $client = new \GuzzleHttp\Client();
