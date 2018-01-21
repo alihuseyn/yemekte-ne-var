@@ -35,19 +35,11 @@ class Download {
   public function download() 
   {
     $destination = $this->getFileDestination();
-    if (!file_exists($destination)) {
-      $file = fopen($destination, 'w+');
-      try {
-        $client = new \GuzzleHttp\Client();
-        $stream = \GuzzleHttp\Psr7\stream_for($file);
-        $client->request('GET', $this->getFileSource(), ['save_to' => $stream]);
-        fclose($file);
-      } catch (Exception $ex) {
-        fclose($file); // close first then remove
-        unlink($destination);
-        throw $ex;
-      }
-    }
+    $file = fopen($destination, 'w+');
+    $client = new \GuzzleHttp\Client();
+    $stream = \GuzzleHttp\Psr7\stream_for($file);
+    $client->request('GET', $this->getFileSource(), ['save_to' => $stream]);
+    fclose($file);
   }
 
   /**
