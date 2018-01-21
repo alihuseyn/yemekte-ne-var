@@ -63,7 +63,7 @@ class Download {
     $url = getenv('VESTEL_MEAL_URL');
     // Response URL
     // Note: username & password added to complete basic authentication
-    $url = "https://{$username}:{$password}@{$url}";
+    $url = 'https://'.$username.':'.$password.'@'.$url;
     // Format
     $url .= $this->getFileName();
 
