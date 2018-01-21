@@ -4,6 +4,12 @@
 * Initialize 3rd Party libraries
 * ---------------------------------------
 */
+// Load Enviroment 
+$dotenv = new Dotenv\Dotenv(dirname(__DIR__));
+if (getenv('APP_ENV') === 'development') {
+  $dotenv->load();
+}
+
 // Set Default Timezone & Locale
 setlocale(LC_TIME, 'tr_TR.utf8');
 date_default_timezone_set('Europe/Istanbul');
