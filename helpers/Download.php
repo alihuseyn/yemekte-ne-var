@@ -35,7 +35,7 @@ class Download {
   public function download() 
   {
     $destination = $this->getFileDestination();
-    if (!is_file($destination)) {
+    if (!file_exists($destination)) {
       $file = fopen($destination, 'w+');
       $client = new \GuzzleHttp\Client();
       $stream = \GuzzleHttp\Psr7\stream_for($file);
@@ -66,9 +66,9 @@ class Download {
     // Note: username & password added to complete basic authentication
     $url = "https://{$username}:{$password}@{$url}";
     // Format
-    $response .= $this->getFileName();
+    $url .= $this->getFileName();
 
-    return $response;
+    return $url;
   }
 
   /**
