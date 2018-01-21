@@ -1,0 +1,23 @@
+{
+    "name": "alihuseyn13/yemekde-ne-var",
+    "description": "Vestel Yemekde Ne Var API",
+    "authors": [
+        {
+            "name": "Alihuseyn Gulmammadov",
+            "email": "alihuseyn13@gmail.com"
+        }
+    ],
+    "require": {
+        "klein/klein": "^2.1",
+        "vlucas/phpdotenv": "^2.4",
+        "guzzlehttp/guzzle": "^6.3",
+        "nuovo/spreadsheet-reader": "^0.5.11",
+        "predis/predis": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "DataLayer\\": "data\\",
+            "Helper\\": "helpers\\"
+        }
+    }
+}
