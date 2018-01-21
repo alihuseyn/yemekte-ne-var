@@ -8,7 +8,7 @@
 $app->with('/api', function () use ($app) {
     $app->with('/menu', function () use ($app) {
         // api/menu/:date => Return all meal list for the given date
-        $app->respond('GET', '/[:date]', function ($request, $response) {
+        $app->respond(['GET', 'POST'], '/[:date]', function ($request, $response) {
             $statusCode = 200; // default status code for success
             $responseData = array(); // empty data
             try {
