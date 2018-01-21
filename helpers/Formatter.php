@@ -50,6 +50,16 @@ class Formatter {
     return trim($text);
   }
 
+   /**
+  * Drop all quotes inside text
+  * @param String $text
+  * @return new text
+  */
+  public function dropQuotes($text)
+  {
+    return preg_replace('/\'/', '', $this->trim($text));
+  }
+
   /**
   * Convert all charachter of text to uppercase
   * @param String $text

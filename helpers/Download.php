@@ -34,7 +34,6 @@ class Download {
   */
   public function download() 
   {
-    var_dump($this->getFileSource());
     $destination = $this->getFileDestination();
     $file = fopen($destination, 'w+');
     $client = new \GuzzleHttp\Client();
@@ -60,7 +59,7 @@ class Download {
   {
     $username = getenv('VESTEL_USERNAME');
     $password = getenv('VESTEL_PASSWORD');
-    $url = getenv('VESTEL_MEAL_URL');
+    $url = $this->formatter->dropQuotes(getenv('VESTEL_MEAL_URL'));
     // Response URL
     // Note: username & password added to complete basic authentication
     $url = 'https://'.$username.':'.$password.'@'.$url;
@@ -77,7 +76,7 @@ class Download {
   */
   public function getFileName ()
   {
-    $format = getenv('VESTEL_XLS_FORMAT');
+    $format = $this->formatter->dropQuotes(getenv('VESTEL_XLS_FORMAT'));
     // Year & month
     $now = explode('-', strftime('%B-%Y', time()));
     $month = $this->formatter->allUpper($now[0]);
