@@ -1,13 +1,13 @@
 <?php
 /**
-* ---------------------------------------
-* Initialize 3rd Party libraries
-* ---------------------------------------
-*/
+ * ---------------------------------------
+ * Initialize 3rd Party libraries
+ * ---------------------------------------
+ */
 // Load Enviroment 
 $dotenv = new Dotenv\Dotenv(dirname(__DIR__));
 if (getenv('APP_ENV') === 'development') {
-  $dotenv->load();
+	$dotenv->load();
 }
 
 // Set Default Timezone & Locale
@@ -17,6 +17,6 @@ date_default_timezone_set('Europe/Istanbul');
 // Initialize Router
 $app = new \Klein\Klein();
 // Require router file for routes
-require(dirname(__DIR__).DIRECTORY_SEPARATOR.'route'.DIRECTORY_SEPARATOR.'routes.php');
+require dirname(__DIR__).DIRECTORY_SEPARATOR.'route'.DIRECTORY_SEPARATOR.'routes.php';
 // Dispatch Router
 $app->dispatch();
