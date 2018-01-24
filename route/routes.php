@@ -10,7 +10,7 @@ $app->with('/api', function () use ($app) {
         // api/menu/:date => Return all meal list for the given date
         $app->respond(['GET', 'POST'], '/[:date]', function ($request, $response) {
             $statusCode = 200; // default status code for success
-            $responseData = array(); // empty data
+            $responseData = []; // empty data
             try {
                 $date = $request->date;
                 $data = new DataLayer\Data();
@@ -27,6 +27,7 @@ $app->with('/api', function () use ($app) {
             $statusCode = 200;
             $data = new DataLayer\Data();
             $responseData = $data->getAll();
+
             return $response->code($statusCode)->json($responseData);
         });
     });
