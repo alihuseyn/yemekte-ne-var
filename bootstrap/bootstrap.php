@@ -2,12 +2,12 @@
 /**
  * ---------------------------------------
  * Initialize 3rd Party libraries
- * ---------------------------------------
+ * ---------------------------------------.
  */
-// Load Enviroment 
+// Load Enviroment
 $dotenv = new Dotenv\Dotenv(dirname(__DIR__));
 if (getenv('APP_ENV') === 'development') {
-	$dotenv->load();
+	 $dotenv->load();
 }
 
 // Set Default Timezone & Locale
