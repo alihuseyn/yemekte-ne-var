@@ -7,6 +7,7 @@ use Helper\Download;
 use Helper\Parser;
 use Helper\Validator;
 use Helper\Redis;
+use Helper\Images;
 
 /**
 * -----------------------
@@ -35,6 +36,11 @@ class Data {
   private $download;
 
   /**
+  * @var Images $images
+  */
+  private $images;
+
+  /**
   * @var Parser $parser
   */
   private $parser;
@@ -56,6 +62,45 @@ class Data {
     $this->parser = new Parser();
     $this->parser->setSourceFile($this->download->getFileDestination());
     $this->redis = new Redis();
+    $this->images = new Images();
+  }
+
+  /**
+  * Check whether given array is associative array
+  * or not and return boolean value accordingly.
+  * @param array $arr
+  * @return boolean
+  */
+  private function is_assoc(array $arr)
+  {
+    if (array() === $arr) return false;
+    return array_keys($arr) !== range(0, count($arr) - 1);
+  }
+
+  /**
+  * Format given data according to selected
+  * type. if the type is SLACK then format
+  * will be shown for slack json format otherwise
+  * will be used default API tag and json format
+  * will be standart. In default images for each meal
+  * will be applied.
+  * @param array $data
+  * @param string $typ
+  * @return array
+  */
+  private function format ($data, $type = 'API')
+  {
+    $response = array();
+    // Convert to default api type
+    if ($this->is_assoc($data)) {
+      $response = $this->images->append($data);
+    } else {
+      foreach ($data as $item) {
+        array_push($response, $this->images->append($item));
+      }
+    }
+
+    return $response;
   }
 
   /**
@@ -86,7 +131,7 @@ class Data {
         $this->redis->set($parentTag, $data);
       }
       // Return response
-      return $this->redis->get($parentTag, $childTag);;
+      return $this->format($this->redis->get($parentTag, $childTag));
     } catch (Exception $ex) {
       throw $ex;
     }
@@ -112,6 +157,6 @@ class Data {
       $this->redis->set($parentTag, $data);
     }
     // Return Data
-    return $data;
+    return $this->format($data);
   }
 }
