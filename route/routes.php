@@ -1,14 +1,14 @@
 <?php
 /*
 * -----------------------------
-* Define all API routes in one location
+* Define all API & SLACK routes in one location
 * -----------------------------
 */
 
 $app->with('/api', function () use ($app) {
     $app->with('/menu', function () use ($app) {
         // api/menu/:date => Return all meal list for the given date
-        $app->respond(['GET', 'POST'], '/[:date]', function ($request, $response) {
+        $app->respond('GET', '/[:date]', function ($request, $response) {
             $statusCode = 200; // default status code for success
             $responseData = []; // empty data
             try {
@@ -31,4 +31,19 @@ $app->with('/api', function () use ($app) {
             return $response->code($statusCode)->json($responseData);
         });
     });
+});
+
+// slack => Return all meal list for today in text json format for slack
+$app->respond(['GET', 'POST'], '/slack', function ($request, $response) {
+    $statusCode = 200; // default status code for success
+    $responseData = []; // empty data
+    try {
+        $data = new DataLayer\Data('SLACK');
+        $responseData = $data->get('today');
+    } catch (Exception $ex) {
+        $statusCode = 400;
+        $responseData = ['error' => $ex->getMessage()];
+    } finally {
+        return $response->code($statusCode)->json($responseData);
+    }
 });

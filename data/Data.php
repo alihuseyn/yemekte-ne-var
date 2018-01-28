@@ -51,10 +51,15 @@ class Data {
   private $redis;
 
   /**
+  * @var string $type - API|SLACK
+  */
+  private $type;
+
+  /**
   * Constructor
   * Initialize and set required objects
   */
-  public function __construct()
+  public function __construct($type = 'API')
   {
     $this->formatter = new Formatter();
     $this->validator = new Validator();
@@ -63,6 +68,8 @@ class Data {
     $this->parser->setSourceFile($this->download->getFileDestination());
     $this->redis = new Redis();
     $this->images = new Images();
+    // Type api | slack
+    $this->type = $type;
   }
 
   /**
@@ -75,6 +82,28 @@ class Data {
   {
     if (array() === $arr) return false;
     return array_keys($arr) !== range(0, count($arr) - 1);
+  }
+
+  /**
+  * Convert api type to slack required text format
+  * @param array $data
+  * @return array
+  */
+  private function slack (array $data)
+  {
+    $response = [
+      'text' => 'Bugün ne var acaba yemekte ?',
+      'attachments' => array()
+    ];
+
+    foreach ($data['meals'] as $meal) {
+      array_push($response['attachments'], [
+        'title' => $meal['name'],
+        'image_url' => $meal['image']
+      ]);
+    }
+
+    return $response;
   }
 
   /**
@@ -98,6 +127,11 @@ class Data {
       foreach ($data as $item) {
         array_push($response, $this->images->append($item));
       }
+    }
+
+    if ($this->type === 'SLACK') {
+      // Convert to slack required format
+      $response = $this->slack($response);
     }
 
     return $response;
